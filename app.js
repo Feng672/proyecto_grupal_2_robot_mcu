@@ -188,17 +188,31 @@ class RobotController {
     }
 
     // Actualizar display de sensores
+// Actualizar display de sensores
     updateSensorDisplay() {
         if (!this.sensorData) return;
 
+        const sd = this.sensorData;
+
         // Mapeo de elementos a actualizar
         const elements = {
-            'batteryLevel': `${this.sensorData.battery || '--'}%`,
-            'robotState': this.sensorData.state || 'Desconectado',
+            'batteryLevel': (sd.battery !== undefined ? `${sd.battery}%` : '--%'),
+            'robotState': sd.state || 'Desconectado',
             'location': this.getLocationText(),
-            'obstacles': this.sensorData.obstacle ? '⚠️ Detectados' : '✅ Libres',
-            'medicineStatus': '✅ Cargada', // Por defecto, el ESP32 maneja el estado
-            'distance': this.sensorData.distance ? `${this.sensorData.distance} cm` : '-- cm'
+            'obstacles': sd.obstacle ? '⚠️ Detectados' : '✅ Libres',
+            // Usa el valor real de medicineLoaded
+            'medicineStatus': sd.medicineLoaded ? '✅ Cargada' : 'Vacía',
+            'distance': (sd.distance !== undefined ? `${sd.distance} cm` : '-- cm'),
+
+            // --- Nuevo: datos del MPU-6050 ---
+            'accXValue': (sd.accX !== undefined ? sd.accX : '--'),
+            'accYValue': (sd.accY !== undefined ? sd.accY : '--'),
+            'accZValue': (sd.accZ !== undefined ? sd.accZ : '--'),
+            'gyroXValue': (sd.gyroX !== undefined ? sd.gyroX : '--'),
+            'gyroYValue': (sd.gyroY !== undefined ? sd.gyroY : '--'),
+            'gyroZValue': (sd.gyroZ !== undefined ? sd.gyroZ : '--'),
+            'pitchValue': (sd.pitch !== undefined ? `${sd.pitch}°` : '--°'),
+            'rollValue': (sd.roll !== undefined ? `${sd.roll}°` : '--°')
         };
 
         // Actualizar cada elemento en la UI
@@ -206,10 +220,11 @@ class RobotController {
             const element = document.getElementById(id);
             if (element) {
                 element.textContent = value;
-                this.applySensorStyles(id, value, this.sensorData);
+                this.applySensorStyles(id, value, sd);
             }
         }
     }
+
 
     // Obtener texto de ubicación según el estado
     getLocationText() {

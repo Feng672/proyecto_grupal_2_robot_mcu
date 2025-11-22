@@ -29,63 +29,64 @@ class ConexionESP32 {
 
         try {
             console.log('🔍 Buscando dispositivo BLE...');
-            
-            // Solicitar dispositivo Bluetooth
+
+            // Buscar por nombre y declarar el servicio como opcional
             this.device = await navigator.bluetooth.requestDevice({
                 filters: [
-                    { name: 'RobotMedicinas-01' },
-                    { namePrefix: 'RobotMedicinas' }
+                    { namePrefix: 'RobotMedicinas' }   // o { name: 'RobotMedicinas-01' }
                 ],
                 optionalServices: [this.SERVICE_UUID]
             });
 
             console.log('📱 Dispositivo seleccionado:', this.device.name);
-            
+
             // Conectar al GATT server
             this.server = await this.device.gatt.connect();
-            
+            console.log('✅ Conectado al GATT server');
+
             // Obtener el servicio
             this.service = await this.server.getPrimaryService(this.SERVICE_UUID);
-            
-            // Obtener características
+            console.log('✅ Servicio obtenido:', this.SERVICE_UUID);
+
+            // Característica para comandos
             this.commandCharacteristic = await this.service.getCharacteristic(this.COMMAND_UUID);
+            console.log('✅ Characteristic COMMAND lista:', this.COMMAND_UUID);
+
+            // Característica para sensores
             this.sensorCharacteristic = await this.service.getCharacteristic(this.SENSOR_DATA_UUID);
+            console.log('✅ Characteristic SENSORS lista:', this.SENSOR_DATA_UUID);
+
+            // Activar notificaciones
             
-            // Escuchar notificaciones de datos de sensores
             await this.sensorCharacteristic.startNotifications();
-            this.sensorCharacteristic.addEventListener('characteristicvaluechanged', 
-                (event) => this.handleSensorData(event));
+            this.sensorCharacteristic.addEventListener(
+                'characteristicvaluechanged',
+                (event) => this.handleSensorData(event)
+            );
+            console.log('✅ Notificaciones activadas');
             
             this.connected = true;
-            
-            // Escuchar eventos de desconexión
-            this.device.addEventListener('gattserverdisconnected', 
-                () => this.handleDisconnection());
-            
-            console.log('✅ Conectado al ESP32 via Bluetooth');
-            
-            // Enviar comando de conexión inicial
-            await this.sendCommand('CONNECT');
-            
+
+            this.device.addEventListener('gattserverdisconnected',
+                () => this.handleDisconnection()
+            );
+
+            console.log('🎉 Conectado al ESP32 (SIN enviar comando CONNECT aún)');
+
+            // OJO: ya NO enviamos "CONNECT" aquí
             return {
                 success: true,
                 message: 'Conectado al robot exitosamente',
                 deviceName: this.device.name
             };
-            
+
         } catch (error) {
-            console.error('❌ Error de conexión Bluetooth:', error);
+            console.error('❌ Error de conexión Bluetooth DETALLADO:', error);
             this.connected = false;
-            
-            if (error.name === 'NotFoundError') {
-                throw new Error('No se encontró el robot. Asegúrate que esté encendido y visible.');
-            } else if (error.name === 'NetworkError') {
-                throw new Error('No se pudo conectar al robot. Verifica que esté cerca.');
-            } else {
-                throw new Error('Error de conexión: ' + error.message);
-            }
+            throw new Error('Error de conexión: ' + error.message);
         }
     }
+
 
     // Enviar comando al ESP32
     async sendCommand(command) {
@@ -111,7 +112,7 @@ class ConexionESP32 {
     handleSensorData(event) {
         const value = event.target.value;
         const decoder = new TextDecoder();
-        const dataString = decoder.decode(value);
+        const dataString = decoder.decode(value.buffer);
         
         console.log('📊 Datos recibidos del ESP32:', dataString);
         

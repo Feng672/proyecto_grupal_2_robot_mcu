@@ -80,6 +80,91 @@
             </div>
         </div>
 
+
+        <!-- ============================= -->
+        <!-- 🆕 PANEL MPU-6050 / ORIENTACIÓN -->
+        <!-- ============================= -->
+        <div class="status-panel">
+            <div class="panel-header">
+                <h3>📐 Orientación y MPU-6050</h3>
+            </div>
+
+            <div class="sensor-grid">
+                <!-- Pitch -->
+                <div class="sensor-item">
+                    <div class="sensor-icon">📈</div>
+                    <div class="sensor-info">
+                        <div class="sensor-label">Pitch</div>
+                        <div class="sensor-value" id="pitchValue">--°</div>
+                    </div>
+                </div>
+
+                <!-- Roll -->
+                <div class="sensor-item">
+                    <div class="sensor-icon">📉</div>
+                    <div class="sensor-info">
+                        <div class="sensor-label">Roll</div>
+                        <div class="sensor-value" id="rollValue">--°</div>
+                    </div>
+                </div>
+
+                <!-- AccX -->
+                <div class="sensor-item">
+                    <div class="sensor-icon">🅧</div>
+                    <div class="sensor-info">
+                        <div class="sensor-label">Acc X</div>
+                        <div class="sensor-value" id="accXValue">--</div>
+                    </div>
+                </div>
+
+                <!-- AccY -->
+                <div class="sensor-item">
+                    <div class="sensor-icon">🅨</div>
+                    <div class="sensor-info">
+                        <div class="sensor-label">Acc Y</div>
+                        <div class="sensor-value" id="accYValue">--</div>
+                    </div>
+                </div>
+
+                <!-- AccZ -->
+                <div class="sensor-item">
+                    <div class="sensor-icon">🅩</div>
+                    <div class="sensor-info">
+                        <div class="sensor-label">Acc Z</div>
+                        <div class="sensor-value" id="accZValue">--</div>
+                    </div>
+                </div>
+
+                <!-- GyroX -->
+                <div class="sensor-item">
+                    <div class="sensor-icon">🌀</div>
+                    <div class="sensor-info">
+                        <div class="sensor-label">Giro X</div>
+                        <div class="sensor-value" id="gyroXValue">--</div>
+                    </div>
+                </div>
+
+                <!-- GyroY -->
+                <div class="sensor-item">
+                    <div class="sensor-icon">🔄</div>
+                    <div class="sensor-info">
+                        <div class="sensor-label">Giro Y</div>
+                        <div class="sensor-value" id="gyroYValue">--</div>
+                    </div>
+                </div>
+
+                <!-- GyroZ -->
+                <div class="sensor-item">
+                    <div class="sensor-icon">🔃</div>
+                    <div class="sensor-info">
+                        <div class="sensor-label">Giro Z</div>
+                        <div class="sensor-value" id="gyroZValue">--</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
         <!-- Panel de Control -->
         <div class="control-panel">
             <!-- Botón de Conexión -->
@@ -96,18 +181,10 @@
             <div class="movement-section">
                 <h3>🎯 Controles de Movimiento</h3>
                 <div class="movement-controls">
-                    <button class="btn btn-move" data-command="MOVE_FORWARD">
-                        ⬆️ Adelante
-                    </button>
-                    <button class="btn btn-move" data-command="TURN_LEFT">
-                        ⬅️ Izquierda
-                    </button>
-                    <button class="btn btn-move" data-command="STOP">
-                        ⏹️ Detener
-                    </button>
-                    <button class="btn btn-move" data-command="TURN_RIGHT">
-                        ➡️ Derecha
-                    </button>
+                    <button class="btn btn-move" data-command="MOVE_FORWARD">⬆️ Adelante</button>
+                    <button class="btn btn-move" data-command="TURN_LEFT">⬅️ Izquierda</button>
+                    <button class="btn btn-move" data-command="STOP">⏹️ Detener</button>
+                    <button class="btn btn-move" data-command="TURN_RIGHT">➡️ Derecha</button>
                 </div>
             </div>
 
@@ -115,15 +192,9 @@
             <div class="medicine-section">
                 <h3>💊 Controles de Medicina</h3>
                 <div class="medicine-controls">
-                    <button class="btn btn-medicine" data-command="DELIVER_MEDICINE">
-                        🚀 Entregar Medicina
-                    </button>
-                    <button class="btn btn-medicine" data-command="RETURN_TO_BASE">
-                        🏠 Volver a Base
-                    </button>
-                    <button class="btn btn-medicine" data-command="GET_SENSOR_DATA">
-                        🔄 Actualizar Sensores
-                    </button>
+                    <button class="btn btn-medicine" data-command="DELIVER_MEDICINE">🚀 Entregar Medicina</button>
+                    <button class="btn btn-medicine" data-command="RETURN_TO_BASE">🏠 Volver a Base</button>
+                    <button class="btn btn-medicine" data-command="GET_SENSOR_DATA">🔄 Actualizar Sensores</button>
                 </div>
             </div>
         </div>
