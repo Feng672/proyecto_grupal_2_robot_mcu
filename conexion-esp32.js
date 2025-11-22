@@ -1,4 +1,4 @@
-// conexion-esp32.js - Conexión Bluetooth real con ESP32
+// conexion-esp32.js - Conexión Bluetooth con ESP32
 class ConexionESP32 {
     constructor() {
         this.device = null;

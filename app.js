@@ -1,4 +1,4 @@
-// app.js - Controlador principal SOLO para ESP32 real
+// app.js - Controlador principal para el robot ESP32
 class RobotController {
     constructor() {
         this.connected = false;
@@ -40,7 +40,7 @@ class RobotController {
             });
         });
 
-        // Configurar callbacks para datos reales del ESP32
+        // Configurar callbacks para datos del ESP32
         window.conexionESP32.onSensorData((data) => {
             this.handleRealSensorData(data);
         });
@@ -50,7 +50,7 @@ class RobotController {
         });
     }
 
-    // Conectar al ESP32 real
+    // Conectar al ESP32 
     async connect() {
         try {
             this.showMessage('🔍 Buscando robot ESP32...', 'info');
@@ -97,7 +97,7 @@ class RobotController {
         }
     }
 
-    // Manejar datos de sensores reales del ESP32
+    // Manejar datos de sensores del ESP32
     handleRealSensorData(data) {
         this.sensorData = data;
         this.updateSensorDisplay();
@@ -151,7 +151,7 @@ class RobotController {
         }
     }
 
-    // Iniciar actualización de sensores en modo real
+    // Iniciar actualización de sensores
     startRealSensorUpdates() {
         console.log('📡 Escuchando datos de sensores en tiempo real del ESP32...');
         this.showMessage('📡 Conectado - Esperando datos del ESP32...', 'success');
