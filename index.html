@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Control Robot Medicinas</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="app-container">
+        <header>
+            <h1>🤖 Robot Asistente de Medicinas</h1>
+            <div class="status" id="status">🔴 Desconectado</div>
+        </header>
+        
+        <div class="control-panel">
+            <button id="connectBtn" class="btn btn-primary">
+                🔗 Conectar al Robot
+            </button>
+            
+            <div class="movement-controls">
+                <button class="btn btn-move" data-command="MOVE_FORWARD">
+                    ⬆️ Adelante
+                </button>
+                <button class="btn btn-move" data-command="TURN_LEFT">
+                    ⬅️ Izquierda
+                </button>
+                <button class="btn btn-move" data-command="STOP">
+                    ⏹️ Detener
+                </button>
+                <button class="btn btn-move" data-command="TURN_RIGHT">
+                    ➡️ Derecha
+                </button>
+            </div>
+            
+            <div class="medicine-controls">
+                <button class="btn btn-medicine" data-command="DELIVER_MEDICINE">
+                    💊 Entregar Medicina
+                </button>
+                <button class="btn btn-medicine" data-command="RETURN_TO_BASE">
+                    🏠 Volver a Base
+                </button>
+            </div>
+        </div>
+        
+        <div class="sensor-panel">
+            <h3>📊 Datos del Robot</h3>
+            <div class="sensor-data">
+                <div>🔋 Batería: <span id="batteryLevel">--%</span></div>
+                <div>📍 Ubicación: <span id="location">Base</span></div>
+                <div>🚧 Obstáculos: <span id="obstacles">No detectados</span></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
