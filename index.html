@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Control Robot Medicinas</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header>
+            <h1>🤖 Robot Asistente de Medicinas</h1>
+        </header>
+
+        <!-- Panel de Estado -->
+        <div class="status-panel">
+            <div class="panel-header">
+                <h3>📊 Estado del Robot</h3>
+                <div class="connection-indicator">
+                    <span id="connectionStatus" class="status disconnected">🔴 Desconectado</span>
+                    <small id="connectionMode">(Modo ESP32 Real)</small>
+                </div>
+            </div>
+            
+            <div class="sensor-grid">
+                <!-- Batería -->
+                <div class="sensor-item">
+                    <div class="sensor-icon">🔋</div>
+                    <div class="sensor-info">
+                        <div class="sensor-label">Batería</div>
+                        <div class="sensor-value" id="batteryLevel">--%</div>
+                    </div>
+                </div>
+                
+                <!-- Estado -->
+                <div class="sensor-item">
+                    <div class="sensor-icon">🔄</div>
+                    <div class="sensor-info">
+                        <div class="sensor-label">Estado</div>
+                        <div class="sensor-value" id="robotState">Desconectado</div>
+                    </div>
+                </div>
+                
+                <!-- Ubicación -->
+                <div class="sensor-item">
+                    <div class="sensor-icon">📍</div>
+                    <div class="sensor-info">
+                        <div class="sensor-label">Ubicación</div>
+                        <div class="sensor-value" id="location">Base</div>
+                    </div>
+                </div>
+                
+                <!-- Obstáculos -->
+                <div class="sensor-item">
+                    <div class="sensor-icon">🚧</div>
+                    <div class="sensor-info">
+                        <div class="sensor-label">Obstáculos</div>
+                        <div class="sensor-value" id="obstacles">No detectados</div>
+                    </div>
+                </div>
+                
+                <!-- Medicina -->
+                <div class="sensor-item">
+                    <div class="sensor-icon">💊</div>
+                    <div class="sensor-info">
+                        <div class="sensor-label">Medicina</div>
+                        <div class="sensor-value" id="medicineStatus">Cargada</div>
+                    </div>
+                </div>
+                
+                <!-- Distancia -->
+                <div class="sensor-item">
+                    <div class="sensor-icon">📏</div>
+                    <div class="sensor-info">
+                        <div class="sensor-label">Distancia</div>
+                        <div class="sensor-value" id="distance">-- cm</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- ============================= -->
+        <!-- 🆕 PANEL MPU-6050 / ORIENTACIÓN -->
+        <!-- ============================= -->
+        <div class="status-panel">
+            <div class="panel-header">
+                <h3>📐 Orientación y MPU-6050</h3>
+            </div>
+
+            <div class="sensor-grid">
+                <!-- Pitch -->
+                <div class="sensor-item">
+                    <div class="sensor-icon">📈</div>
+                    <div class="sensor-info">
+                        <div class="sensor-label">Pitch</div>
+                        <div class="sensor-value" id="pitchValue">--°</div>
+                    </div>
+                </div>
+
+                <!-- Roll -->
+                <div class="sensor-item">
+                    <div class="sensor-icon">📉</div>
+                    <div class="sensor-info">
+                        <div class="sensor-label">Roll</div>
+                        <div class="sensor-value" id="rollValue">--°</div>
+                    </div>
+                </div>
+
+                <!-- AccX -->
+                <div class="sensor-item">
+                    <div class="sensor-icon">🅧</div>
+                    <div class="sensor-info">
+                        <div class="sensor-label">Acc X</div>
+                        <div class="sensor-value" id="accXValue">--</div>
+                    </div>
+                </div>
+
+                <!-- AccY -->
+                <div class="sensor-item">
+                    <div class="sensor-icon">🅨</div>
+                    <div class="sensor-info">
+                        <div class="sensor-label">Acc Y</div>
+                        <div class="sensor-value" id="accYValue">--</div>
+                    </div>
+                </div>
+
+                <!-- AccZ -->
+                <div class="sensor-item">
+                    <div class="sensor-icon">🅩</div>
+                    <div class="sensor-info">
+                        <div class="sensor-label">Acc Z</div>
+                        <div class="sensor-value" id="accZValue">--</div>
+                    </div>
+                </div>
+
+                <!-- GyroX -->
+                <div class="sensor-item">
+                    <div class="sensor-icon">🌀</div>
+                    <div class="sensor-info">
+                        <div class="sensor-label">Giro X</div>
+                        <div class="sensor-value" id="gyroXValue">--</div>
+                    </div>
+                </div>
+
+                <!-- GyroY -->
+                <div class="sensor-item">
+                    <div class="sensor-icon">🔄</div>
+                    <div class="sensor-info">
+                        <div class="sensor-label">Giro Y</div>
+                        <div class="sensor-value" id="gyroYValue">--</div>
+                    </div>
+                </div>
+
+                <!-- GyroZ -->
+                <div class="sensor-item">
+                    <div class="sensor-icon">🔃</div>
+                    <div class="sensor-info">
+                        <div class="sensor-label">Giro Z</div>
+                        <div class="sensor-value" id="gyroZValue">--</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Panel de Control -->
+        <div class="control-panel">
+            <!-- Botón de Conexión -->
+            <div class="connection-section">
+                <button id="connectBtn" class="btn btn-primary">
+                    🔗 Conectar al Robot ESP32
+                </button>
+                <button id="disconnectBtn" class="btn btn-secondary" style="display: none;">
+                    🔌 Desconectar
+                </button>
+            </div>
+
+            <!-- Controles de Movimiento -->
+            <div class="movement-section">
+                <h3>🎯 Controles de Movimiento</h3>
+                <div class="movement-controls">
+                    <button class="btn btn-move" data-command="MOVE_FORWARD">⬆️ Adelante</button>
+                    <button class="btn btn-move" data-command="TURN_LEFT">⬅️ Izquierda</button>
+                    <button class="btn btn-move" data-command="STOP">⏹️ Detener</button>
+                    <button class="btn btn-move" data-command="TURN_RIGHT">➡️ Derecha</button>
+                </div>
+            </div>
+
+            <!-- Controles de Medicina -->
+            <div class="medicine-section">
+                <h3>💊 Controles de Medicina</h3>
+                <div class="medicine-controls">
+                    <button class="btn btn-medicine" data-command="DELIVER_MEDICINE">🚀 Entregar Medicina</button>
+                    <button class="btn btn-medicine" data-command="RETURN_TO_BASE">🏠 Volver a Base</button>
+                    <button class="btn btn-medicine" data-command="GET_SENSOR_DATA">🔄 Actualizar Sensores</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Área de Mensajes -->
+        <div id="message" class="message-area"></div>
+
+        <!-- Información de Conexión -->
+        <div class="info-panel">
+            <h4>ℹ️ Información de Conexión</h4>
+            <p>Conecta vía Bluetooth al dispositivo <strong>RobotMedicinas-01</strong></p>
+            <p><small>Asegúrate que el ESP32 esté encendido y visible</small></p>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="conexion-esp32.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
