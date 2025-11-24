@@ -80,6 +80,11 @@ ESP32-WROOM-32
 * Interface: I2C
 * Uso: Orientación y estabilización
 
+** 10T85 - Micro Interruptor de Límite**
+
+* Uso: Limitación de alcance de tijeras en elevador
+
+
 ### 3.2. Actuadores
 
 **Motores DC con Encoders**
