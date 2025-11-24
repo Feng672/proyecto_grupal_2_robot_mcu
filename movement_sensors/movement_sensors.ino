@@ -342,22 +342,48 @@ void deliverMedicine() {
     sendNotification("NO_MEDICINE_LOADED");
     return;
   }
+
   Serial.println("💊 Iniciando entrega de medicina");
   currentState = DELIVERING_MEDICINE;
   sensorData.state = "DELIVERING";
   sendNotification("DELIVERING_MEDICINE");
   beep(2);
 
+  // ---- Ruta de entrega ----
+  // 1) Adelante 2s
   moveForward();
   delay(2000);
   stopMotors();
 
-  delay(2000); // simulación entrega
+  // 2) Izquierda
+  turnLeft();
+
+  // 3) Adelante 2s
+  moveForward();
+  delay(2000);
+  stopMotors();
+
+  // 4) Derecha
+  turnRight();
+
+  // 5) Adelante 1s
+  moveForward();
+  delay(1000);
+  stopMotors();
+
+  // 6) Derecha
+  turnRight();
+
+  // 7) Adelante 3s
+  moveForward();
+  delay(3000);
+  stopMotors();
+
+  delay(2000); // entrega simbólica
 
   sensorData.medicineLoaded = false;
   currentState = IDLE;
   sensorData.state = "IDLE";
-  Serial.println("✅ Medicina entregada exitosamente");
   sendNotification("MEDICINE_DELIVERED");
   beep(2);
 }
@@ -369,19 +395,51 @@ void returnToBase() {
   sendNotification("RETURNING_TO_BASE");
   beep(1);
 
-  turnLeft();
-  delay(400);
+  // ---- Giro 180° para devolverse ----
+  motor1(150, true);   // ambos motores hacia adelante para girar derecha
+  motor2(150, false);
+  delay(1600); // Tiempo para 180°
+  stopMotors();
+
+  // ---- Regresar por la ruta inversa ----
+
+  // Ruta original: 3s adelante
   moveForward();
   delay(3000);
   stopMotors();
 
+  // Derecha (inversa de la ruta = IZQUIERDA)
+  turnLeft();
+
+  // Luego 1s adelante
+  moveForward();
+  delay(1000);
+  stopMotors();
+
+  // Derecha original → inversa = IZQUIERDA
+  turnLeft();
+
+  // Adelante 2s
+  moveForward();
+  delay(2000);
+  stopMotors();
+
+  // Izquierda original → inversa = DERECHA
+  turnRight();
+
+  // Adelante 2s
+  moveForward();
+  delay(2000);
+  stopMotors();
+
+  // Llegó a base:
   sensorData.medicineLoaded = true;
   currentState = IDLE;
   sensorData.state = "IDLE";
-  Serial.println("🏠 Robot en base - Medicina recargada");
   sendNotification("AT_BASE");
   beep(2);
 }
+
 
 // ==================== SENSORES ====================
 void updateSensors() {
