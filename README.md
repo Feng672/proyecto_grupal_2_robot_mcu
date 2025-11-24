@@ -27,7 +27,8 @@ npx http-server -S -C localhost.pem -K localhost-key.pem -p 5500 #para iniciar l
 * Motores DC con encoders
 * Drivers de motores L298N
 * Sensores IR para línea (módulo MPU-6050) 
-* 2 Sensores ultrasonicos HC-SRO4 
+* 2 Sensores ultrasonicos HC-SRO4
+* Micro Interruptor de Límite
 * Display OLED I2C
 * Bateria LiPo 7.4V y sistema de carga
 * Chasis impresión 3D
